@@ -25,7 +25,7 @@ class Users(models.Model):
     name = models.TextField(max_length=30, verbose_name='nombre')
     lastname = models.TextField(max_length=30, verbose_name='apellido')
     email = models.EmailField(verbose_name='correo')
-    brthday = models.DateField(verbose_name='cumpleaños')
+    birthday = models.DateField(verbose_name='cumpleaños')
     enterprise = models.TextField(max_length=30, verbose_name='empresa')
     is_friend = models.BooleanField(null=False, verbose_name='amigo')
     id_couple = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='referrals')
