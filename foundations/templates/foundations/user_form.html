@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% comment %} 
+{% endcomment %}
+{% block section %}
+<section class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Registro de Amigo</h1>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock section %}
+{% block maincontent %}
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-group">
+      {{ form.type_document.label_tag }} {{ form.type_document }}
+  </div>
+  <div class="form-group">
+      {{ form.document.label_tag }} {{ form.document }}
+  </div>
+  <div class="form-group">
+      {{ form.name.label_tag }} {{ form.name }}
+  </div>
+  <div class="form-group">
+      {{ form.lastname.label_tag }} {{ form.lastname }}
+  </div>
+  <div class="form-group">
+      {{ form.email.label_tag }} {{ form.email }}
+  </div>
+  <div class="form-group form-check">
+      {{ form.birthday.label_tag }} {{ form.birthday }}
+  </div>
+  <div class="form-group form-check">
+    {{ form.enterprise.label_tag }} {{ form.enterprise }}
+</div>
+<div class="form-group form-check">
+  {{ form.is_friend.label_tag }} {{ form.is_friend }}
+</div>
+<div class="form-group form-check">
+  {{ form.is_active.label_tag }} {{ form.is_active }}
+</div>
+<div class="form-group form-check">
+  {{ form.id_couple.label_tag }} {{ form.id_couple }}
+</div>
+  <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+
+
+{% endblock maincontent%} 

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block section %}
+<section class="content-header">
+   <div class="container">
+     <div class="row">
+       <div class="col-sm-12">
+         <h1>Detalle de fundacion ID: {{ object.pk }}</h1>
+       </div>
+     </div>
+   </div>
+ </section>
+{% endblock section %}
+
+{% block maincontent %}
+<div>
+      <img src="{% static object.logo.url %}" style="width:250px;height:200px" />
+</div>
+ <p><strong>ID: </strong>{{ object.pk }}</p>
+ <p><strong>Nit: </strong>{{ object.nit }}</p>
+ <p><strong>Nombre: </strong>{{ object.name }}</p>
+ <p><strong>Descripción: </strong>{{ object.desc|default:"no desc" }}</p>
+ <p><strong>Correo: </strong>{{ object.email }}</p>
+ <p><strong>Activo: </strong>{{ object.is_active }}</p>
+ <p>
+   
+ </p>
+<hr>
+<div>
+</div>
+{% endblock maincontent %} 

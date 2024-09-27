@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% load static %} {% block section %}
+<section class="content-header">
+   <div class="container">
+     <div class="row">
+       <div class="col-sm-12">
+         <h1>Detalle de donación </h1>
+       </div>
+     </div>
+   </div>
+ </section>
+ {% endblock section %} {% block maincontent %}
+ <p><strong>Fecha: </strong>{{ object.donation_date }}</p>
+ <p><strong>Fundacion: </strong>{{ object.id_foundation }}</p>
+ <p><strong>Amigo: </strong>{{ object.id_user }}</p>
+ <p><strong>Valor: </strong>{{ object.value}}</p>
+ <p></p>
+ <hr />
+{% endblock maincontent %}
