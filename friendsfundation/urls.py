@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.shortcuts import redirect
 from foundations import views
+from foundations.views import descargar_donatios
 from django.contrib import admin
 from django.urls import path, include
 
@@ -36,4 +37,5 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('', lambda request: redirect('login'), name='home'),
     path('home/', views.home_view, name='home'),
+    path('descargar_donatios/', descargar_donatios, name='descargar_donatios')
 ]

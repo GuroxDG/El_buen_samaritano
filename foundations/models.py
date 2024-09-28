@@ -17,7 +17,7 @@ class Rol(models.Model):
 class Foundation(models.Model):
     nit = models.PositiveBigIntegerField(verbose_name='nit', unique=True)
     name = models.TextField(max_length=50, verbose_name='nombre')
-    email = models.EmailField(verbose_name='correo', validators=[validate_email], unique=True)
+    email = models.EmailField(verbose_name='correo', validators=[EmailValidator()])
     desc = models.TextField(max_length=100, verbose_name='descripcion') 
     logo = models.ImageField(upload_to="media/logos/")
     is_active = models.BooleanField(verbose_name='activo', default=True)
@@ -63,7 +63,7 @@ class Donation(models.Model):
     id_foundation = models.ForeignKey(Foundation, on_delete=models.CASCADE, related_name='foundation')
     id_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
     value = models.DecimalField(max_digits=20, decimal_places=2)
-    donation_date  = models.DateField(verbose_name='Fecha Donación')
+    donation_date  = models.DateField(verbose_name='Fecha Donación', auto_now_add=True)
     
     def __str__(self) -> str:
         return f'{self.id_foundation} - {self.id_user}'

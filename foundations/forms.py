@@ -1,6 +1,11 @@
+import re
+
 from django import forms
 from foundations.models import *
 from datetime import datetime
+
+def es_numero_positivo(valor):
+    return bool(re.match(r'^\d+(\.\d+)?$', str(valor)))
 
 def es_fecha_superior(fecha):
     fecha_actual = datetime.now().date()
@@ -77,6 +82,12 @@ class DonationForm(forms.ModelForm):
             'id_user': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible'}),
             'id_foundation': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible'}),
         }
+
+    def clean_value(self):
+        value = self.cleaned_data.get('value')
+        if not es_numero_positivo(value):
+             raise forms.ValidationError("El valor suministrado de la donación debe ser positivo y superior a cero")
+        return value
         
 class LoginForm(forms.Form):
     document = forms.CharField(max_length=50, label='Documento')

@@ -5,12 +5,25 @@ from foundations.models import *
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView 
 from django.urls import reverse_lazy 
 from .forms import *
+import csv
 
 #Create your views here.
 def my_test_view(request, *args, **kwargs):
     print(args)
     print(kwargs)
     return HttpResponse("Prueba")
+
+def descargar_donatios(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="donatios.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['id Usuario', 'id Fundación', 'Fecha de la donación', 'Valor'])  # Cabecera del CSV
+
+    for donacion in Donation.objects.all():
+        writer.writerow([donacion.id_foundation, donacion.id_user, donacion.donation_date, donacion.value])
+
+    return response
 
 class FoundationListView(ListView): 
     model = Foundation 
