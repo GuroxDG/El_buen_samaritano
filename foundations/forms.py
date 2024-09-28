@@ -1,5 +1,10 @@
 from django import forms
 from foundations.models import *
+from datetime import datetime
+
+def es_fecha_superior(fecha):
+    fecha_actual = datetime.now().date()
+    return fecha > fecha_actual
 
 class FoundationForm(forms.ModelForm):
     class Meta:
@@ -46,21 +51,21 @@ class UserForm(forms.ModelForm):
 
     def clean_document(self):
         document = self.cleaned_data.get('document')
-        if Foundation.objects.filter(document=document).exists():            
+        if User.objects.filter(document=document).exists():            
             raise forms.ValidationError("Ya existe un Usuario asociado a este documento")
         return document
     
-    # def clean_email(self):
-    #     email = self.cleaned_data.get('email')
-    #     if Foundation.objects.filter(email=email).exists():
-    #         raise forms.ValidationError("Ya existe una fundación registrada con este correo")
-    #     return email
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Ya existe un Usuario registrado con este correo")
+        return email
     
-    # def clean_birthday(self):
-    #     email = self.cleaned_data.get('email')
-    #     if Foundation.objects.filter(email=email).exists():
-    #         raise forms.ValidationError("Ya existe una fundación registrada con este correo")
-    #     return email
+    def clean_birthday(self):
+        birthday = self.cleaned_data.get('birthday')
+        if es_fecha_superior(birthday):
+             raise forms.ValidationError("La fecha suministrada supera la fecha de registro")
+        return birthday
         
 class DonationForm(forms.ModelForm):
     class Meta:

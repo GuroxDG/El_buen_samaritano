@@ -55,5 +55,23 @@
   </div>
 {% endif %}
 
+{% if form.email.errors %}
+  <br/>
+  <div class="error">
+      {% for error in form.email.errors %}
+          <p>{{ error }}</p>
+      {% endfor %}
+  </div>
+{% endif %}
+
+
+{% if form.birthday.errors %}
+  <br/>
+  <div class="error">
+      {% for error in form.birthday.errors %}
+          <p>{{ error }}</p>
+      {% endfor %}
+  </div>
+{% endif %}
 
 {% endblock maincontent%}
