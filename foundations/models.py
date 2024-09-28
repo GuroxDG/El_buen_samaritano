@@ -1,6 +1,10 @@
 import hashlib
 from django.db import models
 from django.urls import reverse
+from django.core.validators import *
+from django.core.exceptions import *
+from django.contrib import messages
+
 
 #Create your models here.
 class Rol(models.Model):
@@ -11,12 +15,12 @@ class Rol(models.Model):
         return self.name
 
 class Foundation(models.Model):
-    nit = models.PositiveBigIntegerField(verbose_name='nit')
+    nit = models.PositiveBigIntegerField(verbose_name='nit', unique=True)
     name = models.TextField(max_length=50, verbose_name='nombre')
-    email = models.EmailField(verbose_name='correo')
+    email = models.EmailField(verbose_name='correo', validators=[EmailValidator()])
     desc = models.TextField(max_length=100, verbose_name='descripcion') 
     logo = models.ImageField(upload_to="media/logos/")
-    is_active = models.BooleanField(verbose_name='activo')
+    is_active = models.BooleanField(verbose_name='activo', default=True)
 
     def __str__(self) -> str:
         return self.name
@@ -33,7 +37,7 @@ class TypesDocument(models.Model):
 
 class User(models.Model):
     type_document = models.ForeignKey(TypesDocument, on_delete=models.CASCADE, null=True, related_name='TipoDocumento', verbose_name='Tipo Documento')
-    document = models.TextField(max_length=20, verbose_name='documento')
+    document = models.TextField(max_length=20, verbose_name='documento', unique=True)
     name = models.TextField(max_length=30, verbose_name='nombre')
     lastname = models.TextField(max_length=30, verbose_name='apellido')
     email = models.EmailField(verbose_name='correo')
@@ -59,7 +63,7 @@ class Donation(models.Model):
     id_foundation = models.ForeignKey(Foundation, on_delete=models.CASCADE, related_name='foundation')
     id_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
     value = models.DecimalField(max_digits=20, decimal_places=2)
-    donation_date  = models.DateField(verbose_name='Fecha Donación')
+    donation_date  = models.DateField(verbose_name='Fecha Donación', auto_now_add=True)
     
     def __str__(self) -> str:
         return f'{self.id_foundation} - {self.id_user}'

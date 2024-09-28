@@ -16,16 +16,19 @@ Including another URLconf
 """
 from django.shortcuts import redirect
 from foundations import views
+from foundations.views import descargar_donations
 from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('foundation',views.FoundationListView.as_view(), name='foundation-list'),
+    path('foundation/<int:pk>/update/',views.FoundationUpdateView.as_view(),name='foundation-update'), 
     path('foundation/<int:pk>/detail/', views.FoundationDetailView.as_view(), name='foundation-detail'),
     path('foundation/create/', views.FoundationCreate.as_view(), name='foundation-create'),
     
     path('user',views.UserListView.as_view(), name='user-list'),
+    path('user/<int:pk>/update/',views.UserUpdateView.as_view(),name='user-update'), 
     path('user/<int:pk>/detail/', views.UserDetailView.as_view(), name='user-detail'),
     path('user/create/', views.UserCreate.as_view(), name='user-create'),
     
@@ -36,4 +39,5 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('', lambda request: redirect('login'), name='home'),
     path('home/', views.home_view, name='home'),
+    path('descargar_donations/', descargar_donations, name='descargar_donations')
 ]

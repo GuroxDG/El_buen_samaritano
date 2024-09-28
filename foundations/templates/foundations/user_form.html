@@ -17,17 +17,38 @@
   <div class="form-group">
     {{ form.document.label_tag }} {{ form.document }}
   </div>
+  {% if form.document.errors %}
+  <div class="alert alert-danger" role="alert">
+      {% for error in form.document.errors %}
+          <p>{{ error }}</p>
+      {% endfor %}
+  </div>
+  {% endif %}
   <div class="form-group">{{ form.name.label_tag }} {{ form.name }}</div>
   <div class="form-group">
     {{ form.lastname.label_tag }} {{ form.lastname }}
   </div>
   <div class="form-group">{{ form.email.label_tag }} {{ form.email }}</div>
+  {% if form.email.errors %}
+  <div class="alert alert-danger" role="alert">
+      {% for error in form.email.errors %}
+          <p>{{ error }}</p>
+      {% endfor %}
+  </div>
+  {% endif %}
   <div class="form-group">
     {{ form.password.label_tag }} {{ form.password }}
   </div>
   <div class="form-group date">
     {{ form.birthday.label_tag }} {{ form.birthday }}
   </div>
+  {% if form.birthday.errors %}
+  <div class="alert alert-danger" role="alert">
+      {% for error in form.birthday.errors %}
+          <p>{{ error }}</p>
+      {% endfor %}
+  </div>
+  {% endif %}
   <div class="form-group">
     {{ form.enterprise.label_tag }} {{ form.enterprise }}
   </div>
@@ -40,10 +61,18 @@
   <div class="form-group">
     {{ form.id_couple.label_tag }} {{ form.id_couple }}
   </div>
+  {% if form.id_couple.errors %}
+  <div class="alert alert-danger" role="alert">
+      {% for error in form.id_couple.errors %}
+          <p>{{ error }}</p>
+      {% endfor %}
+  </div>
+  {% endif %}
   <div class="form-group">
     {{ form.id_rol.label_tag }} {{ form.id_rol }}
   </div>
   <button type="submit" class="btn btn-primary">Guardar</button>
 </form>
+
 
 {% endblock maincontent%}
