@@ -5,6 +5,7 @@ from foundations.models import *
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView 
 from django.urls import reverse_lazy 
 from .forms import *
+from django.contrib.auth import login, logout
 
 #Create your views here.
 def my_test_view(request, *args, **kwargs):
@@ -71,3 +72,7 @@ def login_view(request):
 
 def home_view(request):
     return render(request, 'foundations/home.html') 
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')

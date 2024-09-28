@@ -41,7 +41,7 @@ class User(models.Model):
     enterprise = models.TextField(max_length=30, verbose_name='empresa')
     is_friend = models.BooleanField(null=False, verbose_name='amigo')
     id_couple = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='referrals',verbose_name='Pareja')
-    is_active = models.BooleanField(verbose_name='activo')
+    #is_active = models.BooleanField(verbose_name='activo')
     id_rol = models.ForeignKey(Rol, on_delete=models.SET_NULL, null=True, blank=True, related_name='rol', verbose_name='Rol')
     password = models.TextField(max_length=200, verbose_name='Contraseña') 
     
