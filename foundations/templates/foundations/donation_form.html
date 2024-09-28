@@ -14,11 +14,10 @@
 </section>
 {% endblock section %}
 {% block maincontent %}
-xxxx
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   <div class="form-group">
-    {{ form.value.donation_date }} {{ form.donation_date }}
+    {{ form.donation_date.label_tag }} {{ form.donation_date }}
   </div>
   <div class="form-group">
       {{ form.id_foundation.label_tag }} {{ form.id_foundation }}
@@ -31,6 +30,25 @@ xxxx
   </div>
   <button type="submit" class="btn btn-primary">Guardar</button>
 </form>
+
+<script type="text/javascript">
+  $(function () {
+      $('.datetimepicker-input').datetimepicker({
+          format: 'YYYY-MM-DD HH:mm:ss',  // Formato de fecha y hora
+          icons: {
+              time: 'fa fa-clock',
+              date: 'fa fa-calendar',
+              up: 'fa fa-arrow-up',
+              down: 'fa fa-arrow-down',
+              previous: 'fa fa-chevron-left',
+              next: 'fa fa-chevron-right',
+              today: 'fa fa-calendar-check',
+              clear: 'fa fa-trash',
+              close: 'fa fa-times'
+          }
+      });
+  });
+</script>
 
 
 {% endblock maincontent%} 

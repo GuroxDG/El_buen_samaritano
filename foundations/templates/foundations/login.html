@@ -1,0 +1,62 @@
+
+{% if form.errors %}
+<div class="alert alert-danger">
+  <ul>
+    {% for field in form %} {% for error in field.errors %}
+    <li>{{ error }}</li>
+    {% endfor %} {% endfor %}
+  </ul>
+</div>
+{% endif %}
+{% include 'adminlte/lib/_styles.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buen Samaritano</title>
+
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <a href="#"><b>Buen Samaritano</b></a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Ingrese sus datos para iniciar sesión</p>
+
+      <form  method="post">
+        {% csrf_token %} 
+        <!-- {{ form.as_p }} -->
+        <div class="input-group mb-3">
+          <!-- <input type="email" class="form-control" placeholder="Email"> -->
+          {{ form.document.label_tag }} {{ form.document }}
+        </div>
+        <div class="input-group mb-3">
+          <!-- <input type="password" class="form-control" placeholder="Password"> -->
+          {{ form.password.label_tag }} {{ form.password }}
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="icheck-primary">
+           
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+      <!-- /.social-auth-links -->
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+
+</body>
+</html>

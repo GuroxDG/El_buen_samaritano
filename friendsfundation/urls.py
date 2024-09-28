@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.shortcuts import redirect
 from foundations import views
 from django.contrib import admin
 from django.urls import path, include
@@ -31,4 +32,8 @@ urlpatterns = [
     path('donation',views.DonationListView.as_view(), name='donation-list'),
     path('donation/<int:pk>/detail/', views.DonationDetailView.as_view(), name='donation-detail'),
     path('donation/create/', views.DonationCreate.as_view(), name='donation-create'),
+    
+    path('login/', views.login_view, name='login'),
+    path('', lambda request: redirect('login'), name='home'),
+    path('home/', views.home_view, name='home'),
 ]

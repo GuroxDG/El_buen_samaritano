@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from foundations.models import *
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView 
@@ -54,3 +55,19 @@ class DonationCreate(CreateView):
 class DonationDelete(DeleteView): 
     model = Donation 
     success_url = reverse_lazy('Donation-list') 
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            #messages.success(request, "Acceso Correcto!")
+            return redirect('home') 
+        else:
+            messages.error(request, "Documento o contraseña inválido.")
+    else:
+        form = LoginForm()
+
+    return render(request, 'foundations/login.html', {'form': form})
+
+def home_view(request):
+    return render(request, 'foundations/home.html') 
