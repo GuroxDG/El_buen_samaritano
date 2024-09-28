@@ -61,6 +61,13 @@
   <div class="form-group">
     {{ form.id_couple.label_tag }} {{ form.id_couple }}
   </div>
+  {% if form.id_couple.errors %}
+  <div class="alert alert-danger" role="alert">
+      {% for error in form.id_couple.errors %}
+          <p>{{ error }}</p>
+      {% endfor %}
+  </div>
+  {% endif %}
   <div class="form-group">
     {{ form.id_rol.label_tag }} {{ form.id_rol }}
   </div>

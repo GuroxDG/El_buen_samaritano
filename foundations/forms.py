@@ -71,6 +71,17 @@ class UserForm(forms.ModelForm):
         if es_fecha_superior(birthday):
              raise forms.ValidationError("La fecha suministrada supera la fecha de registro")
         return birthday
+    
+    def clean_id_couple(self):
+        id_couple = self.cleaned_data.get('id_couple')
+        document = self.cleaned_data.get('document')
+        print(id_couple)
+        print(document)
+        print(User.objects.filter(id_couple=id_couple).values('id_couple_id').count())
+        if User.objects.filter(id_couple=id_couple).values('id_couple_id').count() > 0:
+             raise forms.ValidationError("La Pareja seleccionada ya esta referenciada por otro Amigo 🤣 ")
+        return id_couple
+        
         
 class DonationForm(forms.ModelForm):
     class Meta:
