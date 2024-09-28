@@ -13,24 +13,54 @@ class FoundationForm(forms.ModelForm):
             #'logo': forms.FileInput(attrs={'class': 'custom-file-input'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'customCheckbox1'}),
         }
-        
+
+    def clean_nit(self):
+        nit = self.cleaned_data.get('nit')
+        if Foundation.objects.filter(nit=nit).exists():            
+            raise forms.ValidationError("Ya existe una fundación asociada con este nit")
+        return nit
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if Foundation.objects.filter(email=email).exists():
+            raise forms.ValidationError("Ya existe una fundación registrada con este correo")
+        return email
+    
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = '__all__' 
         widgets = {
             'type_document': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible'}),
-            'document': forms.TextInput(attrs={'class': 'form-control'}),
+            'document': forms.NumberInput(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'lastname': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),
-            'birthday': forms.TextInput(attrs={'class': 'form-control datetimepicker-input'}),
+            'birthday': forms.DateInput(attrs={'class': 'form-control datetimepicker-input','type': 'date'}),
             'enterprise': forms.TextInput(attrs={'class': 'form-control'}),
             'is_friend': forms.CheckboxInput(attrs={'class': 'customCheckbox1'}),
             'id_couple': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible'}),
             'id_rol': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible'}),
         }
+
+    def clean_document(self):
+        document = self.cleaned_data.get('document')
+        if Foundation.objects.filter(document=document).exists():            
+            raise forms.ValidationError("Ya existe un Usuario asociado a este documento")
+        return document
+    
+    # def clean_email(self):
+    #     email = self.cleaned_data.get('email')
+    #     if Foundation.objects.filter(email=email).exists():
+    #         raise forms.ValidationError("Ya existe una fundación registrada con este correo")
+    #     return email
+    
+    # def clean_birthday(self):
+    #     email = self.cleaned_data.get('email')
+    #     if Foundation.objects.filter(email=email).exists():
+    #         raise forms.ValidationError("Ya existe una fundación registrada con este correo")
+    #     return email
         
 class DonationForm(forms.ModelForm):
     class Meta:

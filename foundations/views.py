@@ -44,14 +44,18 @@ class UserDelete(DeleteView):
 
 class DonationListView(ListView): 
     model = Donation 
+    
 class DonationDetailView(DetailView): 
     model = Donation 
+
 class DonationUpdate(UpdateView): 
     model = Donation 
     fields = '__all__' 
+
 class DonationCreate(CreateView): 
     model = Donation 
     form_class = DonationForm
+
 class DonationDelete(DeleteView): 
     model = Donation 
     success_url = reverse_lazy('Donation-list') 
@@ -59,7 +63,8 @@ class DonationDelete(DeleteView):
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
-        if form.is_valid():
+        if True:
+        #if form.is_valid():
             #messages.success(request, "Acceso Correcto!")
             return redirect('home') 
         else:

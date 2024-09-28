@@ -46,4 +46,14 @@
   <button type="submit" class="btn btn-primary">Guardar</button>
 </form>
 
+{% if form.document.errors %}
+  <br/>
+  <div class="error">
+      {% for error in form.document.errors %}
+          <p>{{ error }}</p>
+      {% endfor %}
+  </div>
+{% endif %}
+
+
 {% endblock maincontent%}

@@ -37,4 +37,23 @@
   <button type="submit" class="btn btn-primary">Guardar</button>
 </form>
 
+{% if form.email.errors %}
+  <br/>
+  <div class="error">
+      {% for error in form.email.errors %}
+          <p>{{ error }}</p>
+      {% endfor %}
+  </div>
+{% endif %}
+
+{% if form.nit.errors %}
+  <br/>
+  <div class="error">
+      {% for error in form.nit.errors %}
+          <p>{{ error }}</p>
+      {% endfor %}
+  </div>
+{% endif %}
+
+
 {% endblock maincontent%} 
