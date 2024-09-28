@@ -1,0 +1,22 @@
+{% extends 'adminlte/base.html' %}
+{% load static %}
+
+{% block title %}El buen samaritano{% endblock %}
+
+{% block stylesheets %}
+    {% include 'adminlte/lib/_styles.html' %}
+{% endblock %}
+
+{% block bodyclass %} 
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% block section %}
+        {% endblock section %}
+    </div>
+    <div class="container">
+        {% block maincontent %}
+        {% endblock maincontent %}
+    </div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "base.html" %} {% load static %} {% block section %}
+<section class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Amigos registrados</h1>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock section %} {% block maincontent %}
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-default">
+          <div class="card-header d-flex p-0">
+            <h3 class="card-title p-3">Listado de amigos</h3>
+            <ul class="nav nav-pills ml-auto p-2">
+              <li class="nav-item">
+                <a href="{% url 'user-create' %}" class="btn btn-success">
+                  <i class="fa fa-users"></i> Crear Amigo
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="card-body p-0">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th style="width: 10px">ID</th>
+                  <th>Tipo Documento</th>
+                  <th>Documento</th>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th style="width: 100px">Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for c in object_list %}
+                <tr>
+                  <td>{{ c.pk }}</td>
+                  <td>{{ c.type_document }}</td>
+                  <td>{{ c.document }}</td>
+                  <td>{{ c.name }}</td>
+                  <td>{{ c.lastname }}</td>
+                  <td>
+                    <div class="btn-group btn-group-sm">
+                      <a
+                        href="{% url 'user-detail' c.pk %}"
+                        class="btn btn-info"
+                        ><i class="fas fa-eye"></i
+                      ></a>
+                      <a href="#" class="btn btn-danger"
+                        ><i class="fas fa-trash"></i
+                      ></a>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock maincontent %}

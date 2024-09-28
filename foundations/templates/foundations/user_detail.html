@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block section %}
+<section class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Detalle de amigo </h1>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock section %}
+
+{% block maincontent %}
+
+ <p><strong>Tipo Documento: </strong>{{ object.type_document }}</p>
+ <p><strong>Nombre: </strong>{{ object.name }}</p>
+ <p><strong>Apellido: </strong>{{ object.lastname }}</p>
+ <p><strong>Correo: </strong>{{ object.email|default:"Sin Correo" }}</p>
+ <p><strong>Fecha nacimiento: </strong>{{ object.birthday }}</p>
+ <p><strong>Empresa: </strong>{{ object.enterprise }}</p>
+ <p><strong>Es Amigo: </strong>{{ object.is_friend }}</p>
+ <p><strong>Activo: </strong>{{ object.is_active }}</p>
+ <p><strong>Pareja: </strong>{{ object.id_couple }}</p>
+ <p>
+   
+ </p>
+<hr>
+<div>
+</div>
+{% endblock maincontent %} 
