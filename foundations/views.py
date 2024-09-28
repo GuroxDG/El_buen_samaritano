@@ -38,31 +38,23 @@ class FoundationListView(ListView):
     model = Foundation 
 class FoundationDetailView(DetailView): 
     model = Foundation 
+class FoundationUpdateView(UpdateView):
+    model = Foundation
+    form_class = FoundationFormUpdate
 class FoundationCreate(CreateView): 
     model = Foundation 
     form_class = FoundationForm
-    
-class FoundationUpdate(UpdateView): 
-    model = Foundation 
-    fields = '__all__' 
-class Foundationelete(DeleteView): 
-    model = Foundation 
-    success_url = reverse_lazy('Foundation-list') 
 
 class UserListView(ListView): 
     model = User 
 class UserDetailView(DetailView): 
     model = User 
-class UserUpdate(UpdateView): 
+class UserUpdateView(UpdateView): 
     model = User 
-    fields = '__all__' 
+    form_class = UserFormUpdate
 class UserCreate(CreateView): 
     model = User 
     form_class = UserForm
-    
-class UserDelete(DeleteView): 
-    model = User 
-    success_url = reverse_lazy('User-list') 
 
 class DonationListView(ListView): 
     model = Donation 

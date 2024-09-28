@@ -11,6 +11,41 @@ def es_fecha_superior(fecha):
     fecha_actual = datetime.now().date()
     return fecha > fecha_actual
 
+class FoundationFormUpdate(forms.ModelForm):
+    class Meta:
+        model = Foundation
+        fields = '__all__' 
+        widgets = {
+            'nit': forms.NumberInput(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'desc': forms.Textarea(attrs={'class': 'form-control'}),
+            #'logo': forms.FileInput(attrs={'class': 'custom-file-input'}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'customCheckbox1'}),
+        }
+
+    def clean_nit(self):
+        nit = self.cleaned_data.get('nit')
+        if Foundation.objects.filter(nit=nit).exists():            
+            raise forms.ValidationError("Ya existe una fundación asociada con este nit")
+        return nit
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if Foundation.objects.filter(email=email).exists():
+            raise forms.ValidationError("Ya existe una fundación registrada con este correo")
+        return email
+
+class FoundationFormUpdate(forms.ModelForm):
+    class Meta:
+        model = Foundation
+        fields = ['name', 'desc','is_active']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'desc': forms.Textarea(attrs={'class': 'form-control'}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'customCheckbox1'}),
+        }
+    
 class FoundationForm(forms.ModelForm):
     class Meta:
         model = Foundation
@@ -35,6 +70,28 @@ class FoundationForm(forms.ModelForm):
         if Foundation.objects.filter(email=email).exists():
             raise forms.ValidationError("Ya existe una fundación registrada con este correo")
         return email
+    
+class UserFormUpdate(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['name', 'lastname', 'password', 'birthday', 'enterprise', 'is_friend', 'id_couple', 'id_rol'] 
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'lastname': forms.TextInput(attrs={'class': 'form-control'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'birthday': forms.DateInput(attrs={'class': 'form-control datetimepicker-input','type': 'date'}),
+            'enterprise': forms.TextInput(attrs={'class': 'form-control'}),
+            'is_friend': forms.CheckboxInput(attrs={'class': 'customCheckbox1'}),
+            'id_couple': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible'}),
+            'id_rol': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible'}),
+        }
+
+    def clean_birthday(self):
+        birthday = self.cleaned_data.get('birthday')
+        if es_fecha_superior(birthday):
+             raise forms.ValidationError("La fecha suministrada supera la fecha de registro")
+        return birthday
+
     
 class UserForm(forms.ModelForm):
     class Meta:
