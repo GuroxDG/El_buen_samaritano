@@ -28,6 +28,13 @@
   <div class="form-group">
       {{ form.value.label_tag }} {{ form.value }}
   </div>
+  {% if form.value.errors %}
+  <div class="alert alert-danger" role="alert">
+      {% for error in form.value.errors %}
+          <p>{{ error }}</p>
+      {% endfor %}
+  </div>
+  {% endif %}
   <button type="submit" class="btn btn-primary">Guardar</button>
 </form>
 
@@ -50,13 +57,5 @@
   });
 </script>
 
-{% if form.value.errors %}
-  <br/>
-  <div class="error">
-      {% for error in form.value.errors %}
-          <p>{{ error }}</p>
-      {% endfor %}
-  </div>
-{% endif %}
 
 {% endblock maincontent%} 

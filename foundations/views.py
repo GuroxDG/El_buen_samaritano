@@ -13,15 +13,24 @@ def my_test_view(request, *args, **kwargs):
     print(kwargs)
     return HttpResponse("Prueba")
 
-def descargar_donatios(request):
+def descargar_donations(request, id=None):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="donatios.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['id Usuario', 'id Fundación', 'Fecha de la donación', 'Valor'])  # Cabecera del CSV
 
-    for donacion in Donation.objects.all():
-        writer.writerow([donacion.id_foundation, donacion.id_user, donacion.donation_date, donacion.value])
+    if id:
+        writer.writerow(['id Fundación', 'Fecha de la donación', 'Valor'])
+        donaciones = Donation.objects.filter(id=id)
+    else:
+        writer.writerow(['id Fundación', 'id Usuario', 'Fecha de la donación', 'Valor']) 
+        donaciones = Donation.objects.all()
+
+    for donacion in donaciones:
+        if id:
+            writer.writerow([donacion.id_foundation, donacion.donation_date, donacion.value])
+        else:
+            writer.writerow([donacion.id_foundation, donacion.id_user, donacion.donation_date, donacion.value])
 
     return response
 
