@@ -1,5 +1,5 @@
 import re
-
+import hashlib
 from django import forms
 from foundations.models import *
 from datetime import datetime
@@ -74,71 +74,35 @@ class FoundationForm(forms.ModelForm):
 class UserFormUpdate(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['name', 'lastname', 'password', 'birthday', 'enterprise', 'is_friend', 'id_couple', 'id_rol'] 
+        fields = ['email', 'password']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'lastname': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),
-            'birthday': forms.DateInput(attrs={'class': 'form-control datetimepicker-input','type': 'date'}),
-            'enterprise': forms.TextInput(attrs={'class': 'form-control'}),
-            'is_friend': forms.CheckboxInput(attrs={'class': 'customCheckbox1'}),
-            'id_couple': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible'}),
-            'id_rol': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible'}),
         }
 
-    def clean_birthday(self):
-        birthday = self.cleaned_data.get('birthday')
-        if es_fecha_superior(birthday):
-             raise forms.ValidationError("La fecha suministrada supera la fecha de registro")
-        return birthday
 
-    
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = '__all__' 
+        fields = ['email', 'password']
         widgets = {
-            'type_document': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible'}),
-            'document': forms.NumberInput(attrs={'class': 'form-control'}),
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'lastname': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),
-            'birthday': forms.DateInput(attrs={'class': 'form-control datetimepicker-input','type': 'date'}),
-            'enterprise': forms.TextInput(attrs={'class': 'form-control'}),
-            'is_friend': forms.CheckboxInput(attrs={'class': 'customCheckbox1'}),
-            'id_couple': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible'}),
-            'id_rol': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible'}),
         }
 
-    def clean_document(self):
-        document = self.cleaned_data.get('document')
-        if User.objects.filter(document=document).exists():            
-            raise forms.ValidationError("Ya existe un Usuario asociado a este documento")
-        return document
-    
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("Ya existe un Usuario registrado con este correo")
         return email
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if len(password) < 8:
+            raise forms.ValidationError("La contraseña debe tener al menos 8 caracteres.")
+        return password
+
     
-    def clean_birthday(self):
-        birthday = self.cleaned_data.get('birthday')
-        if es_fecha_superior(birthday):
-             raise forms.ValidationError("La fecha suministrada supera la fecha de registro")
-        return birthday
-    
-    def clean_id_couple(self):
-        id_couple = self.cleaned_data.get('id_couple')
-        document = self.cleaned_data.get('document')
-        print(id_couple)
-        print(document)
-        print(User.objects.filter(id_couple=id_couple).values('id_couple_id').count())
-        if User.objects.filter(id_couple=id_couple).values('id_couple_id').count() > 0:
-             raise forms.ValidationError("La Pareja seleccionada ya esta referenciada por otro Amigo 🤣 ")
-        return id_couple
-        
         
 class DonationForm(forms.ModelForm):
     class Meta:
@@ -158,23 +122,22 @@ class DonationForm(forms.ModelForm):
         return value
         
 class LoginForm(forms.Form):
-    document = forms.CharField(max_length=50, label='Documento')
+    email = forms.EmailField(label='Correo')
     password = forms.CharField(widget=forms.PasswordInput, label='Contraseña')
 
     def clean(self):
         cleaned_data = super().clean()
-        document = cleaned_data.get('document')
+        email = cleaned_data.get('email')
         password = cleaned_data.get('password')
 
-        if document and password:
+        if email and password:
             password_md5 = hashlib.md5(password.encode('utf-8')).hexdigest()
-
             try:
-                user = User.objects.get(document=document, password=password_md5)
+                user = User.objects.get(email=email, password=password_md5)
             except User.DoesNotExist:
-                raise forms.ValidationError("Documento o contraseña incorrecta.")
-            
-            return cleaned_data
+                raise forms.ValidationError("Correo o contraseña incorrectos.")
+        return cleaned_data
+
         
     class Meta:
         model = User

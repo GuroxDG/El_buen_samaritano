@@ -77,12 +77,11 @@ class DonationDelete(DeleteView):
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
-        if True:
-        #if form.is_valid():
-            #messages.success(request, "Acceso Correcto!")
+        #if True:
+        if form.is_valid():
+            messages.success(request, "Acceso Correcto!")
             return redirect('home') 
-        else:
-            messages.error(request, "Documento o contraseña inválido.")
+        
     else:
         form = LoginForm()
 

@@ -36,25 +36,15 @@ class TypesDocument(models.Model):
         return f'{self.code} - {self.desc}'
 
 class User(models.Model):
-    type_document = models.ForeignKey(TypesDocument, on_delete=models.CASCADE, null=True, related_name='TipoDocumento', verbose_name='Tipo Documento')
-    document = models.TextField(max_length=20, verbose_name='documento', unique=True)
-    name = models.TextField(max_length=30, verbose_name='nombre')
-    lastname = models.TextField(max_length=30, verbose_name='apellido')
-    email = models.EmailField(verbose_name='correo')
-    birthday = models.DateField(verbose_name='cumpleaños')
-    enterprise = models.TextField(max_length=30, verbose_name='empresa')
-    is_friend = models.BooleanField(null=False, verbose_name='amigo')
-    id_couple = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='referrals',verbose_name='Pareja')
-    is_active = models.BooleanField(verbose_name='activo')
-    id_rol = models.ForeignKey(Rol, on_delete=models.SET_NULL, null=True, blank=True, related_name='rol', verbose_name='Rol')
+    email = models.EmailField(verbose_name='correo', unique=True)
     password = models.TextField(max_length=200, verbose_name='Contraseña') 
-    
+
     def save(self, *args, **kwargs):
         self.password = hashlib.md5(self.password.encode('utf-8')).hexdigest()
         super(User, self).save(*args, **kwargs)
 
     def __str__(self) -> str:
-        return self.name
+        return self.email
     
     def get_absolute_url(self):
         return reverse('user-list')

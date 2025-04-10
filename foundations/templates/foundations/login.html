@@ -1,6 +1,6 @@
 
 {% if form.errors %}
-<div class="alert alert-danger">
+
   <ul>
     {% for field in form %} {% for error in field.errors %}
     <li>{{ error }}</li>
@@ -15,43 +15,49 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Buen Samaritano</title>
+  <title>Library</title>
 
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="#"><b>Buen Samaritano</b></a>
+    <a href="#"><b>Biblioteca</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Ingrese sus datos para iniciar sesión</p>
 
-      <form  method="post">
-        {% csrf_token %} 
-        <!-- {{ form.as_p }} -->
-        <div class="input-group mb-3">
-          <!-- <input type="email" class="form-control" placeholder="Email"> -->
-          {{ form.document.label_tag }} {{ form.document }}
-        </div>
-        <div class="input-group mb-3">
-          <!-- <input type="password" class="form-control" placeholder="Password"> -->
-          {{ form.password.label_tag }} {{ form.password }}
-        </div>
-        <div class="row">
-          <div class="col-8">
-            <div class="icheck-primary">
-           
-            </div>
+      <form method="post">
+        {% csrf_token %}
+      
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger" role="alert">
+            {{ form.non_field_errors }}
           </div>
-          <!-- /.col -->
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        {% endif %}
+      
+        <div class="form-group row mb-3">
+          <label class="col-sm-3 col-form-label text-end" for="{{ form.email.id_for_label }}"><strong>Email</strong></label>
+          <div class="col-sm-6">
+            {{ form.email }}
           </div>
-          <!-- /.col -->
+        </div>
+      
+        <div class="form-group row mb-3">
+          <label class="col-sm-3 col-form-label text-end" for="{{ form.password.id_for_label }}"><strong>Password</strong></label>
+          <div class="col-sm-6">
+            {{ form.password }}
+          </div>
+        </div>
+      
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">Sign In</button>
         </div>
       </form>
+   
+      
+      
       <!-- /.social-auth-links -->
     </div>
     <!-- /.login-card-body -->
@@ -60,3 +66,4 @@
 
 </body>
 </html>
+
